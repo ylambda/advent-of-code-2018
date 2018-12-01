@@ -3,23 +3,21 @@ import * as fs from "fs";
 const inputPath = "inputs/day01.txt";
 const input = fs.readFileSync(inputPath, "utf8");
 
-const frequencyChanges : Array<number> = input.trim().split("\n")
-    .map(Number);
-
-const part1 = frequencyChanges.reduce((sum: number, f: number) => sum + f, 0);
-console.log("Part 1: %d", part1);
+const changes : Array<number> = input.trim().split("\n").map(Number);
+const total = changes.reduce((sum: number, f: number) => sum + f, 0);
+console.log("Part 1: %d", total);
 
 let i = 0;
-let currentFrequency = 0;
-let seenFrequencies = new Set([currentFrequency]);
+let frequency = 0;
+let visited = new Set([frequency]);
 while(true) {
-    currentFrequency += frequencyChanges[i];
-    if (seenFrequencies.has(currentFrequency)) {
+    frequency += changes[i];
+
+    if (visited.has(frequency)) {
         break;
     }
-    seenFrequencies.add(currentFrequency);
-    i++;
-    i = i % frequencyChanges.length;
-}
 
-console.log("Part 2: %d", currentFrequency);
+    visited.add(frequency);
+    i = (i+1) % changes.length;
+}
+console.log("Part 2: %d", frequency);
